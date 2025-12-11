@@ -7,7 +7,7 @@ import { findMenuCodeFromPath } from '@/lib/menu-utils';
 import { useMenuStore } from '@/stores/useMenuStore';
 
 const axiosClient = axios.create({
-	baseURL: import.meta.env.VITE_API_URL,
+	baseURL: import.meta.env.VITE_API_DEV_URL,
 	headers: { "Content-Type": "application/json" },
 	withCredentials: true,
 	// timeout: 10 * 1000,

@@ -84,7 +84,7 @@ const transformItemsToOptions = (
 		.filter((item): item is SelectFieldOption => item !== null && Boolean(item.value) && Boolean(item.label));
 };
 
-const useSelectFieldOptions = ({
+const useSelectFieldOptionsQuery = ({
 	endpoint,
 	queryKey,
 	valueField = "id",
@@ -126,4 +126,5 @@ const useSelectFieldOptions = ({
 	});
 };
 
-export default useSelectFieldOptions;
+export default useSelectFieldOptionsQuery;
+

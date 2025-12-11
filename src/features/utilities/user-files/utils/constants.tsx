@@ -8,6 +8,11 @@ const getUserTypeLabel = (userType: number | string | null | undefined): string 
 	return String(userType || "");
 };
 
+export const USER_TYPE_OPTIONS = [
+	{ value: "User", label: "User" },
+	{ value: "Supervisor", label: "Supervisor" },
+];
+
 export const createUserColumns = (): IColumn<IUserFiles>[] => [
 	{
 		key: "name",

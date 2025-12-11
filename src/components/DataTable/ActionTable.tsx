@@ -43,6 +43,7 @@ interface ActionTableProps<T> {
 	onAction?: (type: string, row?: T) => void;
 	renderAction?: (action: IApiAction, row?: T) => ReactNode;
 	renderSideAction?: (action: IApiAction, row: T) => ReactNode;
+	disabledActions?: string[] | ((row: T) => string[]);
 
 	// Row selection
 	enableRowSelection?: boolean;
@@ -83,6 +84,7 @@ const ActionTable = <T extends object>({
 	onAction,
 	renderAction,
 	renderSideAction,
+	disabledActions,
 
 	// Row selection
 	enableRowSelection = false,
@@ -127,12 +129,20 @@ const ActionTable = <T extends object>({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [debouncedSearch]);
 
+	const getFilteredActions = useCallback((actionsList: IApiAction[], row?: T) => {
+		if (!disabledActions) return actionsList;
+		
+		const disabled = typeof disabledActions === "function" ? (row ? disabledActions(row) : []) : disabledActions;
+		
+		return actionsList.filter((action) => !disabled.includes(action.type || ""));
+	}, [disabledActions]);
+
 	const headerActions = useMemo(() => actions.filter((action) => action.position === "header"),
 		[actions]
 	);
-	const sideActions = useMemo(() => actions.filter((action) => action.position === "side"),
-		[actions]
-	);
+	const sideActions = useMemo(() => {
+		return actions.filter((action) => action.position === "side");
+	}, [actions]);
 
 	const handleRenderActionButton = useCallback(
 		(action: IApiAction, row?: T) => {return renderActionButton({ action, row, renderAction, onAction })},
@@ -140,8 +150,11 @@ const ActionTable = <T extends object>({
 	);
 
 	const handleBuildSideActionButtons = useCallback(
-		(row: T) => {return buildSideActionButtons({ sideActions, row, renderSideAction, onAction })},
-		[sideActions, renderSideAction, onAction]
+		(row: T) => {
+			const filteredSideActions = getFilteredActions(sideActions, row);
+			return buildSideActionButtons({ sideActions: filteredSideActions, row, renderSideAction, onAction });
+		},
+		[sideActions, renderSideAction, onAction, getFilteredActions]
 	);
 
 	const ALL_COLUMNS = useMemo(

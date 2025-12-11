@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IUserActivityLog, IUserActivityLogParams } from "../../types";
 import { userActivityLogsApi } from "../../api";
 
-export const useGetUserActivityLogs = (params?: IUserActivityLogParams) => {
+export const useGetUserActivityLogsQuery = (params?: IUserActivityLogParams) => {
     return useQuery({
         queryKey: ["user-activity-logs", params],
         queryFn: async () => {
@@ -11,3 +11,4 @@ export const useGetUserActivityLogs = (params?: IUserActivityLogParams) => {
         },
     });
 };
+

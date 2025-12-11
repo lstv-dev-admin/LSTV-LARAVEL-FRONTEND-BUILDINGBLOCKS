@@ -10,7 +10,7 @@ import usePagination from '@/features/shared/hooks/usePagination';
 import { usePrintMutation } from '@/features/shared/hooks/mutations';
 import FilterLogFormDialog from '@/features/utilities/activity-user-logs/components/FilterLogFormDialog';
 import { USER_ACTIVITY_LOGS_ACTIONS, USER_ACTIVITY_LOGS_COLUMNS } from '@/features/utilities/activity-user-logs/utils/constants';
-import { useGetUserActivityLogs } from '@/features/utilities/activity-user-logs/hooks/queries/useGetUserACtivityLogs';
+import { useGetUserActivityLogsQuery } from '@/features/utilities/activity-user-logs/hooks/queries/useGetUserActivityLogsQuery';
 import useActivityUserLogsStore from '@/features/utilities/activity-user-logs/store';
 
 // Libs
@@ -57,7 +57,7 @@ const ActivityUsersLogPage = () => {
 		user: filters.user || undefined,
 	};
 
-    const { data: userActivityLogs, isLoading, isError } = useGetUserActivityLogs({ page, per_page, sort_order, ...apiFilters });
+    const { data: userActivityLogs, isLoading, isError } = useGetUserActivityLogsQuery({ page, per_page, sort_order, ...apiFilters });
 	const { mutateAsync: printActivityLogs, isPending: isPrinting } = usePrintMutation({
 		endpoint: "/utilities/user-activity-log",
 		title: "Activity Users Logs",

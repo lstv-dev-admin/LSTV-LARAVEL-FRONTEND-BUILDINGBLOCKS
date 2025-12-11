@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 // Features
 import { LoginFormData, LOGIN_SCHEMA } from "@features/auth/schema";
-import useLoginMutation from "@features/auth/hooks/mutation/useLoginMutation";
+import useLoginMutation from "@features/auth/hooks/mutations/useLoginMutation";
 import { handleFormError } from "@features/shared/utils/handleFormError";
 
 // Components
@@ -20,8 +19,6 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
-    const navigate = useNavigate();
-
 	const { mutateAsync: login, isPending } = useLoginMutation();
 	const { show: showOverlay, hide: hideOverlay } = useOverlayStore();
     const { user } = useAuthStore();
@@ -45,9 +42,8 @@ const LoginForm = () => {
         if (user) return;
 		showOverlay("Authenticating...");
 		try {
-			const response = await login(data);
+			await login(data);
 			toast.success("Authenticated successfully");
-			navigate("/dashboard");
 		} catch (error) {
 			handleFormError(
                 error, 

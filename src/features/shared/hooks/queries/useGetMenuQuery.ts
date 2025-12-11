@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 // Utils
 import { useMenuStore } from '@/stores/useMenuStore';
 
-const useGetMenu = ({ enabled }: { enabled?: boolean } = {}) => {
+const useGetMenuQuery = ({ enabled }: { enabled?: boolean } = {}) => {
     const { setMenuTree, setLoadingState } = useMenuStore();
     const query = useQuery<IMenuItem[], AxiosError>({
         queryKey: ['menu-list-query'],
@@ -35,4 +35,5 @@ const useGetMenu = ({ enabled }: { enabled?: boolean } = {}) => {
     return query;
 };
 
-export default useGetMenu;
+export default useGetMenuQuery;
+

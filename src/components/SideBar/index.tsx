@@ -9,7 +9,7 @@ import { LogOut } from "lucide-react";
 import MenuItem from "./MenuItem";
 
 // Features
-import useLogoutMutation from "@/features/auth/hooks/mutation/useLogoutMutation";
+import useLogoutMutation from "@/features/auth/hooks/mutations/useLogoutMutation";
 
 // Utils
 import { useAuthStore } from "@/stores/useAuthStore";

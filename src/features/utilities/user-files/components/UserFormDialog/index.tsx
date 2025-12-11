@@ -19,13 +19,13 @@ import { useUserForm } from "./hooks/useUserForm";
 import { useUserTypeHandler } from "./hooks/useUserTypeHandler";
 import { useUserFormValidation } from "./hooks/useUserFormValidation";
 import { UserFormFields } from "./UserFormFields";
+import { USER_TYPE_OPTIONS } from "../../utils/constants";
 
 interface UserFormDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	onSubmit: (data: UserFormData) => Promise<void>;
 	selectedUser: IUserFiles | null;
-	userTypeOptions: Array<{ value: string; label: string }>;
 	isLoading?: boolean;
 }
 
@@ -34,10 +34,10 @@ export const UserFormDialog = ({
 	onOpenChange,
 	onSubmit,
 	selectedUser,
-	userTypeOptions,
 	isLoading = false,
 }: UserFormDialogProps) => {
-	const isEditMode = !!selectedUser;
+    const isEditMode = !!selectedUser;
+	const userTypeOptions = USER_TYPE_OPTIONS;
 	const { menuTree, actionsByMenu, isLoading: isLoadingMenu } = useMenuWithActions({
 		enabled: open,
 	});

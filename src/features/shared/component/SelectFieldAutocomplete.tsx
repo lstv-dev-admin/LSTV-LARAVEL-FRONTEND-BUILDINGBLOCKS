@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import SelectField from "@/components/Fields/SelectField";
 import { SelectFieldAutocompleteProps } from "../types/SelectFieldAutocomplete.types";
-import useSelectFieldOptions from "../hooks/queries/useSelectFieldOptions";
+import useSelectFieldOptionsQuery from "../hooks/queries/useSelectFieldOptionsQuery";
 
 const SelectFieldAutocomplete = <TFieldValues extends FieldValues>({
 	name,
@@ -20,7 +20,7 @@ const SelectFieldAutocomplete = <TFieldValues extends FieldValues>({
 	queryParams,
 	transformResponse,
 }: SelectFieldAutocompleteProps<TFieldValues>) => {
-	const { data: options = [], isLoading, isError } = useSelectFieldOptions({
+	const { data: options = [], isLoading, isError } = useSelectFieldOptionsQuery({
 		endpoint,
 		queryKey,
 		valueField,

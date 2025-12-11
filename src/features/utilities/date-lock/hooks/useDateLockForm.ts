@@ -3,8 +3,8 @@ import { useEffect, useMemo, useCallback } from 'react';
 
 // Features
 import { DATE_LOCK_SCHEMA, DateLockFormValues } from '../schema';
-import { useUpdateDateLockMutation } from './mutations/useUpdateDateLock';
-import { useGetDateLockQuery } from './queries/useGetDateLock';
+import { useUpdateDateLockMutation } from './mutations/useUpdateDateLockMutation';
+import { useGetDateLockQuery } from './queries/useGetDateLockQuery';
 
 // Libs
 import { useForm, useWatch } from 'react-hook-form';

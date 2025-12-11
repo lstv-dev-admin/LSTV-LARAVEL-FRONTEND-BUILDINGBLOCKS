@@ -6,7 +6,7 @@ import { CornerLeftUp } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 // Features
-import { useGetBaselineSequrity } from '@/features/utilities/baseline-security/hooks/queries/useGetBaselineSequrity';
+import { useGetBaselineSecurityQuery } from '@/features/utilities/baseline-security/hooks/queries/useGetBaselineSecurityQuery';
 import { BASELINE_SECURITY_SCHEMA, BaselineSecurityFormData } from '@/features/utilities/baseline-security/schemas';
 import { IFormattedSecurityParameter, IBaselineSecurity } from '@/features/utilities/baseline-security/types';
 import { SYSTEM_SECURITY_PARAMETERS } from '@/features/utilities/baseline-security/utils/constants';
@@ -15,14 +15,14 @@ import { SYSTEM_SECURITY_PARAMETERS } from '@/features/utilities/baseline-securi
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { IColumn } from '@/components/DataTable/types';
-import { useUpdateBaselineSecurityMutation } from './mutations/useUpdateBaselineSecurity';
+import { useUpdateBaselineSecurityMutation } from './mutations/useUpdateBaselineSecurityMutation';
 import { toast } from 'sonner';
 import useConfirmStore from '@/stores/useConfirmStore';
 
 const useBaselineSecurityForm = () => {
 	const [activeTab, setActiveTab] = useState<string>('password-settings');
 
-	const { data, isLoading, isFetching, isError } = useGetBaselineSequrity();
+	const { data, isLoading, isFetching, isError } = useGetBaselineSecurityQuery();
 	const { confirm, close, setLoading } = useConfirmStore();
 	const { mutateAsync, isPending } = useUpdateBaselineSecurityMutation();
 

@@ -16,7 +16,7 @@ import { Form } from "@/components/ui/form";
 // Features
 import { handleFormError } from "@features/shared/utils/handleFormError";
 import { CHANGE_PASSWORD_SCHEMA, ChangePasswordFormData } from "@/features/auth/schema";
-import { useChangePasswordMutation } from "@/features/auth/hooks/mutation/useChangePasswordMutation";
+import { useChangePasswordMutation } from "@/features/auth/hooks/mutations/useChangePasswordMutation";
 import { useMemo } from "react";
 import useConfirmStore from "@/stores/useConfirmStore";
 

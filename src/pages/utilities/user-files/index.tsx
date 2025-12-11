@@ -3,7 +3,7 @@ import { useMemo } from "react";
 // Features
 import { useGetUsersQuery } from '@features/utilities/user-files/hooks/queries/useGetUsersQuery';
 import { UserFormDialog } from '@features/utilities/user-files/components/UserFormDialog';
-import { useUserHandlers } from '@features/utilities/user-files/hooks/useUserHandlers';
+import { useUserFiles } from '@features/utilities/user-files/hooks/useUserFiles';
 import { createUserColumns } from '@features/utilities/user-files/utils/constants';
 import { IUserFiles } from '@features/utilities/user-files/types';
 
@@ -11,22 +11,14 @@ import { IUserFiles } from '@features/utilities/user-files/types';
 import { Separator } from "@/components/ui/separator";
 import ActionTable from "@/components/DataTable/ActionTable";
 import PageHeader from "@/components/PageHeader.tsx";
-import PageHeaderWrapper from "@/components/PageHeader.tsx/PageHeaderWrapper";
 
 // Utils
 import usePagination from "@/features/shared/hooks/usePagination";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
-
-// Libs
-
-const USER_TYPE_OPTIONS = [
-	{ value: "User", label: "User" },
-	{ value: "Supervisor", label: "Supervisor" },
-];
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function Users() {
+    const { user: currentUser } = useAuthStore();
 	const { params, setSearch, setPage, setItemsPerPage } = usePagination();
 	const { data, isLoading, isFetching, isError } = useGetUsersQuery(params);
 
@@ -43,9 +35,17 @@ export default function Users() {
 		handleSubmitCreate,
 		handleSubmitEdit,
 		handleDelete,
-	} = useUserHandlers();
+		handlePrint,
+		handleExport,
+	} = useUserFiles();
 
-	const USER_COLUMNS = useMemo(() => createUserColumns(),[]);
+    const USER_FILES_COLUMNS = useMemo(() => createUserColumns(),[]);
+
+	const getDisabledActions = (row: IUserFiles): string[] => {
+        return currentUser && row.user_id === currentUser.user_id 
+            ? ["user-access", "edit", "delete"] 
+            : ["user-access"];
+	};
 
 	return (
 		<>
@@ -56,7 +56,7 @@ export default function Users() {
             />
 			<Separator className="my-4" />
 			<ActionTable
-				columns={USER_COLUMNS}
+				columns={USER_FILES_COLUMNS}
 				data={data?.data?.items}
 				itemSize={data?.data?.items_per_page}
 				totalPages={data?.data?.total_pages}
@@ -67,10 +67,13 @@ export default function Users() {
 				onPageChange={(p) => setPage(p)}
 				onItemsPerPageChange={(c) => setItemsPerPage(c)}
 				actions={data?.data?.actions}
+                disabledActions={getDisabledActions}
 				onAction={(type, row) => {
-                    const actionHandlers: Record<string, (row: IUserFiles) => void> = {
+                    const actionHandlers: Record<string, (row?: IUserFiles) => void> = {
                         add: () => handleCreate(),
                         edit: (row) => row && handleEdit(row),
+                        print: () => handlePrint(),
+                        export: () => handleExport(),
                         delete: (row) => {
                             if (!row) return;
                             const userName = `${row.first_name} ${row.last_name}`.trim() || row.email;
@@ -87,7 +90,6 @@ export default function Users() {
 				onOpenChange={handleCloseEdit}
 				onSubmit={handleSubmitEdit}
 				selectedUser={selectedUser}
-				userTypeOptions={USER_TYPE_OPTIONS}
 				isLoading={isUpdating}
 			/>
 			<UserFormDialog
@@ -95,7 +97,6 @@ export default function Users() {
 				onOpenChange={handleCloseCreate}
 				onSubmit={handleSubmitCreate}
 				selectedUser={null}
-				userTypeOptions={USER_TYPE_OPTIONS}
 				isLoading={isCreating}
 			/>
 		</>

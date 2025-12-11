@@ -11,11 +11,9 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 // Utils
-import facebookIcon from '@/assets/images/facebook.png';
-import linkedinIcon from '@/assets/images/linkedin.png';
 import loginBg from '@/assets/images/login-bg.jpg';
 import logo from '@/assets/images/lstv-icon.png';
-import websiteIcon from '@/assets/images/web-link.png';
+import { SOCIAL_MEDIA_LINKS } from '@/features/auth/utils/constants';
 
 // Stores
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -24,38 +22,15 @@ const LoginPage = () => {
     const { user, isSupervisor, accessibleRoutes } = useAuthStore();
 
     if (user) {
-        const redirecTo = isSupervisor ? '/dashboard' : accessibleRoutes[0] ?? '/404';
-
-        return (
-            <Navigate 
-                to={redirecTo} 
-                replace 
-            />
-        );
-    }
-
-    const links = [
-        {
-            img: facebookIcon,
-            href: 'https://www.facebook.com/LeeSystemsTechnologyVentures',
-            alt: 'facebook logo',
-        },
-        {
-            img: linkedinIcon,
-            href: 'https://ph.linkedin.com/company/lee-systems-technology-ventures',
-            alt: 'linkedin logo',
-        },
-        {
-            img: websiteIcon,
-            href: 'https://lstventures.com/',
-            alt: 'website link',
-        }
-    ];
+        const redirecTo = isSupervisor ? '/dashboard' : accessibleRoutes[0] ?? '/no-access';
+        
+        return <Navigate to={redirecTo} replace />;
+    };
 
     return (
         <main>
             <div 
-                className="flex flex-col items-center justify-center bg-cover bg-center px-4 min-h-screen py-20"
+                className="relative flex flex-col items-center justify-center bg-cover bg-center px-4 min-h-screen py-20"
                 style={{ backgroundImage: `url(${loginBg})` }}
             >
                 <div className='absolute top-0 left-0 w-full h-full bg-slate-800/25 backdrop-blur-lg' />
@@ -94,7 +69,7 @@ const LoginPage = () => {
                             </div>
                             <div className='flex flex-col items-center gap-3'>
                                 <div className='flex items-center justify-center gap-2'>
-                                    {links.map((item) => (
+                                    {SOCIAL_MEDIA_LINKS.map((item) => (
                                         <Button key={item.href} size='icon' className='rounded-full bg-sidebar-primary-foreground hover:bg-primary-foreground/90 shadow-md' asChild>
                                             <Link to={item.href} target='_blank'>
                                                 <img src={item.img} alt={item.alt} className='w-4 h-4' />

@@ -13,7 +13,14 @@ import { useState, Suspense } from "react";
 import { cn } from "@/lib/utils";
 import SideBarMenu from "@/components/SideBar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { 
+    DropdownMenu, 
+    DropdownMenuGroup, 
+    DropdownMenuItem, 
+    DropdownMenuLabel, 
+    DropdownMenuSeparator, 
+    DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 
 const AppLayout = () => {
@@ -62,6 +69,9 @@ const AppLayout = () => {
                                 My Account
                             </DropdownMenuLabel>
                             <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <User className="mr-2 h-4 w-4" /> Profile
+                                </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <KeyRound className="mr-2 h-4 w-4" />
                                     Change Password

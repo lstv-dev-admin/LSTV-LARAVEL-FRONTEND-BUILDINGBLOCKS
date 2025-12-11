@@ -11,3 +11,4 @@ export const useUpdateDateLockMutation = () => {
         onError: (error: unknown) => console.error(error),
     });
 };
+

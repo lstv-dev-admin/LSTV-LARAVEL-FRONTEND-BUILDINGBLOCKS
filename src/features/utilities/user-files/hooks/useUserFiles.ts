@@ -6,8 +6,9 @@ import { UserFormData } from "@features/utilities/user-files/schema";
 import { useCreateUserMutation } from "@features/utilities/user-files/hooks/mutations/useCreateUserMutation";
 import { useUpdateUserMutation } from "@features/utilities/user-files/hooks/mutations/useUpdateUserMutation";
 import { useDeleteUserMutation } from "@features/utilities/user-files/hooks/mutations/useDeleteUserMutation";
+import { usePrintMutation, useExportMutation } from "@features/shared/hooks/mutations";
 
-export const useUserHandlers = () => {
+export const useUserFiles = () => {
 	const [editModal, setEditModal] = useState<boolean>(false);
 	const [createModal, setCreateModal] = useState<boolean>(false);
 	const [selectedUser, setSelectedUser] = useState<IUserFiles | null>(null);
@@ -16,6 +17,16 @@ export const useUserHandlers = () => {
 	const { mutateAsync: updateUser, isPending: isUpdating } = useUpdateUserMutation();
 	const { mutateAsync: deleteUser } = useDeleteUserMutation();
 	const { confirm, setLoading: setConfirmLoading, close } = useConfirmStore();
+
+	const { mutateAsync: printUserFiles, isPending: isPrinting } = usePrintMutation({
+		endpoint: "/utilities/user-files",
+		title: "User Files",
+	});
+
+	const { mutateAsync: exportUserFiles, isPending: isExporting } = useExportMutation({
+		endpoint: "/utilities/user-files",
+		title: "User Files",
+	});
 
 	const handleEdit = (user: IUserFiles) => {
 		setSelectedUser(user);
@@ -88,7 +99,7 @@ export const useUserHandlers = () => {
 			handleCloseEdit();
 		} catch (error) {
 			console.error("Update user error:", error);
-			throw error;
+			toast.error("Failed to update user. Please try again.", { id: toastId });
 		}
 	};
 
@@ -116,6 +127,16 @@ export const useUserHandlers = () => {
 		}
 	};
 
+	const handlePrint = async () => {
+		if (isPrinting) return;
+		await printUserFiles();
+	};
+
+	const handleExport = async () => {
+		if (isExporting) return;
+		await exportUserFiles();
+	};
+
 	return {
 		editModal,
 		createModal,
@@ -129,6 +150,8 @@ export const useUserHandlers = () => {
 		handleSubmitCreate,
 		handleSubmitEdit,
 		handleDelete,
+		handlePrint,
+		handleExport,
 	};
 };
 

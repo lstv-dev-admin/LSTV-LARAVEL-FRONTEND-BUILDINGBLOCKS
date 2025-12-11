@@ -15,8 +15,8 @@ const ProtectedLayout = () => {
     const routes = data?.accessible_routes || accessibleRoutes || [];
     const isSupervisor = authenticatedUser.user_type === "Supervisor";
 
-    if (!isSupervisor && routes.length === 0) return <Navigate to="/404" replace />;
-    if (!isSupervisor && !routes.includes(location.pathname)) return <Navigate to="/404" replace />;
+    if (!isSupervisor && routes.length === 0) return <Navigate to="/not-found" replace />;
+    if (!isSupervisor && !routes.includes(location.pathname)) return <Navigate to="/no-access" replace />;
 
     return <Outlet />;
 };

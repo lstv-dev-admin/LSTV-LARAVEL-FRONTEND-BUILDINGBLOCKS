@@ -17,3 +17,4 @@ const useLogoutMutation = () => {
 };
 
 export default useLogoutMutation;
+
